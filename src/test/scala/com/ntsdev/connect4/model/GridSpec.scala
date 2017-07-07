@@ -70,6 +70,15 @@ class GridSpec extends Specification {
       val grid5 = grid4.placeCell(3,0,Some(RedCell))
       grid5.winningMove(3,0,RedCell) should beTrue
     }
+
+    "Detect a vertical win" in {
+      val grid = Grid
+      val grid2 = grid.placeCell(0,0,Some(RedCell))
+      val grid3 = grid2.placeCell(0,1,Some(RedCell))
+      val grid4 = grid3.placeCell(0,2,Some(RedCell))
+      val grid5 = grid4.placeCell(0,3,Some(RedCell))
+      grid5.winningMove(0,3,RedCell) should beTrue
+    }
   }
 
 }
