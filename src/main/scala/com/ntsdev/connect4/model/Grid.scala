@@ -33,29 +33,38 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
     */
   def placeCell(x: Int, y: Int, cell: Option[Cell]): Grid = {
     val index = cellIndex(x, y)
-    board(index) match {
-      case None =>
-        val newGrid = new Grid(board.updated(index, cell))
-        if(newGrid.winningMove(x, y, cell.get)){
-          cell match {
-            case Some(RedCell) =>
-              println("Red Wins!")
-              newGrid.win = true
-            case Some(BlackCell) =>
-              println("Black Wins!")
-              newGrid.win = true
-            case _ =>
-              println("Game Error!")
-              System.exit(-1)
-          }
-        }
-        newGrid
-      case Some(_) => this
+    if(Grid.validIndex(x,y)) {
+      board(index) match {
+        case None =>
+          setCellValue(x, y, cell, index)
+        case Some(_) => this
+      }
+    } else {
+      this //no move possible
     }
+  }
+
+  private def setCellValue(x: Int, y: Int, cell: Option[Cell], index: Int) = {
+    val newGrid = new Grid(board.updated(index, cell))
+    if (newGrid.winningMove(x, y, cell.get)) {
+      cell match {
+        case Some(RedCell) =>
+          println("Red Wins!")
+          newGrid.win = true
+        case Some(BlackCell) =>
+          println("Black Wins!")
+          newGrid.win = true
+        case _ =>
+          println("Game Error!")
+          System.exit(-1)
+      }
+    }
+    newGrid
   }
 
   /**
     * Indicates a tie
+    *
     * @return true if all cells are filled
     */
   def allCellsFilled: Boolean = {
@@ -79,11 +88,13 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
   }
 
   private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.horizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+    Grid.rightHorizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
+      Grid.leftHorizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
   }
 
   private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.verticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+    Grid.downVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
+      Grid.upVerticalIndices(x,y).count(checkCoordinates(_, isRed)) >= 4
   }
 
   private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
@@ -123,17 +134,28 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     List((x, y), (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3), (x + 4, y + 4))
   }
 
-  def horizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
+  def rightHorizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y),
-      (x - 1, y), (x - 2, y), (x - 3, y)
+      (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y)
     )
   }
 
-  def verticalIndices(x: Int, y: Int): List[(Int, Int)] = {
+  def leftHorizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x, y + 1), (x, y + 2) ,(x, y + 3),
-      (x, y - 1), (x, y - 2), (x, y - 3)
+      (x, y), (x - 1, y), (x - 2, y), (x - 3, y)
+    )
+  }
+
+
+  def downVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
+    List(
+      (x, y), (x, y + 1), (x, y + 2) ,(x, y + 3)
+    )
+  }
+
+  def upVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
+    List(
+      (x, y), (x, y - 1), (x, y - 2), (x, y - 3)
     )
   }
 

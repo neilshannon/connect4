@@ -33,12 +33,20 @@ class GridSpec extends Specification {
       tryAnotherUpdate.cellValue(0) shouldEqual Some(RedCell)
     }
 
-    "Build a list of horizontal indices" in {
-      Grid.horizontalIndices(0, 0) shouldEqual List((0,0), (1,0), (2,0), (3,0), (-1,0), (-2,0), (-3,0))
+    "Build a list of right horizontal indices" in {
+      Grid.rightHorizontalIndices(0, 0) shouldEqual List((0,0), (1,0), (2,0), (3,0))
     }
 
-    "Build a list of vertical indices" in {
-      Grid.verticalIndices(0, 0) shouldEqual List((0,0), (0,1), (0,2), (0,3), (0,-1), (0,-2), (0,-3))
+    "Build a list of left horizontal indices" in {
+      Grid.leftHorizontalIndices(5, 0) shouldEqual List((5,0), (4,0), (3,0), (2,0))
+    }
+
+    "Build a list of down vertical indices" in {
+      Grid.downVerticalIndices(0, 0) shouldEqual List((0,0), (0,1), (0,2), (0,3))
+    }
+
+    "Build a list of up vertical indices" in {
+      Grid.upVerticalIndices(0,5) shouldEqual List((0,5), (0,4), (0,3), (0,2))
     }
 
     "Build a list of top left to bottom right diagonal indices" in {

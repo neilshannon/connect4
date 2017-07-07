@@ -1,6 +1,6 @@
 package com.ntsdev.connect4.model
 
-class Cell
+sealed class Cell
 
 class RedCell extends Cell {
   override def toString = "[R]"
