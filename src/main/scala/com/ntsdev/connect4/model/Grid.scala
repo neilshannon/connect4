@@ -18,7 +18,10 @@ class Grid(private val board:List[Option[Cell]]) {
     * @return
     */
   def cellValue(index: Int): Option[Cell] = {
-    board(index)
+    if(index >= 0 && index <= 41)
+      board(index)
+    else
+      None
   }
 
   /**
@@ -44,6 +47,33 @@ class Grid(private val board:List[Option[Cell]]) {
     board.forall(_.isDefined)
   }
 
+  def winningMove(x: Int, y: Int, cell: Cell): Boolean = {
+    val isRed = cell.isInstanceOf[RedCell]
+    horizontalWin(x, y, isRed) || verticalWin(x, y, isRed) || diagonalWin(x, y, isRed)
+  }
+
+  private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
+    Grid.horizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+  }
+
+  private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
+    Grid.verticalIndices(x, y).forall(checkCoordinates(_, isRed))
+  }
+
+  private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
+    Grid.diagonalBottomLeftToTopRightIndices(x, y).forall(checkCoordinates(_, isRed)) ||
+    Grid.diagonalTopLeftToBottomRightIndices(x, y).forall(checkCoordinates(_, isRed)) ||
+    Grid.diagonalBottomRightToTopLeftIndices(x, y).forall(checkCoordinates(_, isRed)) ||
+    Grid.diagonalTopRightToBottomLeftIndices(x, y).forall(checkCoordinates(_, isRed))
+  }
+
+  private def checkCoordinates(coords: (Int, Int), isRed: Boolean) = {
+    cellValue(cellIndex(coords._1, coords._2)) match {
+      case Some(cellToCheck) => (isRed && cellToCheck.isInstanceOf[RedCell]) || !isRed && cellToCheck.isInstanceOf[BlackCell]
+      case None => false
+    }
+  }
+
 }
 
 /**
@@ -66,12 +96,15 @@ object Grid extends Grid(board = List.fill(41)(None)) {
     List((x, y), (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3), (x + 4, y + 4))
   }
 
-  def horizontalIndices(row: Int): List[(Int, Int)] = {
-    List.range(0,7).map(x => (x, row))
+  def horizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
+    List(
+      (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y),
+      (x - 1, y), (x - 2, y), (x - 3, y)
+    )
   }
 
-  def verticalIndices(column: Int): List[(Int, Int)] = {
-    List.range(0,6).map(y => (column, y))
+  def verticalIndices(column: Int, row: Int): List[(Int, Int)] = {
+    List.range(0,6 - row).map(y => (column, y))
   }
 
   def validIndex(column: Int, row: Int): Boolean = {

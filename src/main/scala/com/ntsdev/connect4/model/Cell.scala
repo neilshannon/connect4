@@ -2,8 +2,8 @@ package com.ntsdev.connect4.model
 
 class Cell
 
-object EmptyCell extends Cell
+class RedCell extends Cell
+object RedCell extends RedCell
 
-object RedCell extends Cell
-
-object BlackCell extends Cell
+class BlackCell extends Cell
+object BlackCell extends BlackCell
