@@ -12,6 +12,14 @@ class GridSpec extends Specification {
       testGrid.cellIndex(6, 5) shouldEqual 41 //seventh column, sixth row
     }
 
+    "Check if an index is valid" in {
+      Grid.validIndex(0,0) should beTrue
+      Grid.validIndex(6,5) should beTrue
+      Grid.validIndex(0,6) should beFalse
+      Grid.validIndex(0,7) should beFalse
+      Grid.validIndex(7,0) should beFalse
+    }
+
     "Set a value" in {
       val testGrid = Grid
       val updatedGrid = testGrid.placeCell(0,0,Some(RedCell))
