@@ -14,11 +14,21 @@ class Game(var grid: Grid) {
       val row = grid.nextCellForColumn(column)
       if (row > -1) {
         grid = grid.placeCell(column, row, Some(BlackCell))
+        drawBoard
       }
       else {
-        println("Choose another column.  This column is full")
+        print("Choose another column.  This column is full")
       }
     } while(!(grid.allCellsFilled || grid.win))
+  }
+
+  def drawBoard = {
+    List.range(0, 6).foreach(y => {
+      List.range(0, 7).foreach(x => {
+        print(grid.cellValue(grid.cellIndex(x, y)).getOrElse("[-]"))
+      })
+      print('\n')
+    })
   }
 
 

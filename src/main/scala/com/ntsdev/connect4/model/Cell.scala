@@ -2,8 +2,12 @@ package com.ntsdev.connect4.model
 
 class Cell
 
-class RedCell extends Cell
+class RedCell extends Cell {
+  override def toString = "[R]"
+}
 object RedCell extends RedCell
 
-class BlackCell extends Cell
+class BlackCell extends Cell {
+  override def toString = "[B]"
+}
 object BlackCell extends BlackCell
