@@ -32,6 +32,12 @@ class GridSpec extends Specification {
     "Build a list of vertical indexes" in {
       Grid.verticalIndices(0) shouldEqual List((0,0), (0,1), (0,2), (0,3), (0,4), (0,5))
     }
+
+    "Build a list of top left to bottom right diagonal indexes" in {
+      Grid.diagonalLeftToRightIndices(0, 0) shouldEqual List((0,0), (1,1), (2,2), (3,3), (4,4))
+      Grid.diagonalLeftToRightIndices(0, 1) shouldEqual List((0,1), (1,2), (2,3), (3,4), (4,5))
+      Grid.diagonalLeftToRightIndices(1, 1) shouldEqual List((1,1), (2,2), (3,3), (4,4), (5,5))
+    }
   }
 
 }
