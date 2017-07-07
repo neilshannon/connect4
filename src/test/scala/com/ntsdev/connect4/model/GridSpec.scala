@@ -25,18 +25,23 @@ class GridSpec extends Specification {
       tryAnotherUpdate.cellValue(0) shouldEqual Some(RedCell)
     }
 
-    "Build a list of horizontal indexes" in {
+    "Build a list of horizontal indices" in {
       Grid.horizontalIndices(0) shouldEqual List((0,0), (1,0), (2,0), (3,0), (4,0), (5,0), (6,0))
     }
 
-    "Build a list of vertical indexes" in {
+    "Build a list of vertical indices" in {
       Grid.verticalIndices(0) shouldEqual List((0,0), (0,1), (0,2), (0,3), (0,4), (0,5))
     }
 
-    "Build a list of top left to bottom right diagonal indexes" in {
-      Grid.diagonalLeftToRightIndices(0, 0) shouldEqual List((0,0), (1,1), (2,2), (3,3), (4,4))
-      Grid.diagonalLeftToRightIndices(0, 1) shouldEqual List((0,1), (1,2), (2,3), (3,4), (4,5))
-      Grid.diagonalLeftToRightIndices(1, 1) shouldEqual List((1,1), (2,2), (3,3), (4,4), (5,5))
+    "Build a list of top left to bottom right diagonal indices" in {
+      Grid.diagonalTopLeftToBottomRightIndices(0, 0) shouldEqual List((0,0), (1,1), (2,2), (3,3), (4,4))
+      Grid.diagonalTopLeftToBottomRightIndices(0, 1) shouldEqual List((0,1), (1,2), (2,3), (3,4), (4,5))
+      Grid.diagonalTopLeftToBottomRightIndices(1, 1) shouldEqual List((1,1), (2,2), (3,3), (4,4), (5,5))
+    }
+
+    "Build a list of bottom left to top right diagonal indices" in {
+      Grid.diagonalBottomLeftToTopRightIndices(0, 5) shouldEqual List((0,5), (1,4), (2,3), (3,2), (4,1))
+      Grid.diagonalBottomLeftToTopRightIndices(1, 4) shouldEqual List((1,4), (2,3), (3,2), (4,1), (5,0))
     }
   }
 

@@ -27,7 +27,11 @@ class Grid(private val board:List[Option[Cell]]) {
   Blank/new game
  */
 object Grid extends Grid(board = List.fill(41)(None)) {
-  def diagonalLeftToRightIndices(x: Int, y: Int) = {
+  def diagonalBottomLeftToTopRightIndices(x: Int, y: Int) = {
+    List((x, y), (x + 1, y - 1), (x + 2, y - 2), (x + 3, y - 3), (x + 4, y - 4))
+  }
+
+  def diagonalTopLeftToBottomRightIndices(x: Int, y: Int): List[(Int, Int)] = {
     List((x, y), (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3), (x + 4, y + 4))
   }
 
