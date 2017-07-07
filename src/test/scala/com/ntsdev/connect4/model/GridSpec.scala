@@ -48,6 +48,11 @@ class GridSpec extends Specification {
       Grid.diagonalTopRightToBottomLeftIndices(6, 0) shouldEqual List((6,0), (5,1), (4,2), (3,3), (2,4))
       Grid.diagonalTopRightToBottomLeftIndices(6, 1) shouldEqual List((6,1), (5,2), (4,3), (3,4), (2,5))
     }
+
+    "Build a list of bottom right to top left diagonal indices" in {
+      Grid.diagonalBottomRightToTopLeftIndices(6, 5) shouldEqual List((6,5), (5,4), (4,3), (3,2), (2,1))
+      Grid.diagonalBottomRightToTopLeftIndices(6, 4) shouldEqual List((6,4), (5,3), (4,2), (3,1), (2,0))
+    }
   }
 
 }
