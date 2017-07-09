@@ -2,6 +2,7 @@ package com.ntsdev.connect4.game
 
 import com.ntsdev.connect4.com.ntsdev.connect4.ai.SimpleComputerPlayer
 import com.ntsdev.connect4.model.{BlackCell, Grid, RedCell}
+import com.ntsdev.connect4.model.Grid._
 
 import scala.io.StdIn
 
@@ -36,7 +37,7 @@ class Game(var grid: Grid) {
   def drawBoard(): Unit = {
     List.range(0, 6).foreach(y => {
       List.range(0, 7).foreach(x => {
-        print(grid.cellValue(grid.cellIndex(x, y)).getOrElse("[-]"))
+        print(grid.cellValue(cellIndex(x, y)).getOrElse("[-]"))
       })
       print('\n')
     })

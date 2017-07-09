@@ -1,6 +1,7 @@
 package com.ntsdev.connect4.com.ntsdev.connect4.ai
 
 import com.ntsdev.connect4.model.{Grid, RedCell}
+import com.ntsdev.connect4.model.Grid._
 
 class SimpleComputerPlayer {
   def nextMove(grid: Grid): Int = {
@@ -10,7 +11,7 @@ class SimpleComputerPlayer {
       case _ => false
     })
 
-    val index = grid.columnFromIndex(lastRedIndex)
+    val index = columnFromIndex(lastRedIndex)
     if(grid.canPlayColumn(index)){
       index
     } else if(grid.canPlayColumn(index + 1)){
