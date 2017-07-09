@@ -1,9 +1,26 @@
 package com.ntsdev.connect4.model
 
-class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
+class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
+
+  def columnFromIndex(index: Int): Int = {
+    index match {
+      case x if x < 7 => x
+      case 0 => 0
+      case _ => index % 7
+    }
+  }
+
+  def rowFromIndex(index: Int): Int = {
+    index match {
+      case x if x <= 6 => 0
+      case y => y / 7
+    }
+  }
+
 
   /**
     * Find the flat index based on x, y coordinates. Board goes from (0,0) to (6, 5)
+    *
     * @param x row
     * @param y column
     * @return list index
@@ -82,7 +99,7 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
 
   def nextCellForColumn(column: Int): Int = {
     val availableRow = -1
-    List.range(5,0,-1).foreach(row => {
+    List.range(5,-1,-1).foreach(row => {
       cellValue(cellIndex(column, row)) match {
         case Some(_) => 0
         case None => return row
@@ -92,8 +109,17 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
   }
 
   private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.rightHorizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
-      Grid.leftHorizontalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+    val horizontals: List[Option[(Int, Int)]] = Grid.horizontalIndices(x,y).map(Option(_))
+    val matchesForPlayer = horizontals.map {
+      case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
+        if (checkCoordinates((coords._1, coords._2), isRed))
+          Some(coords)
+        else
+          None
+    }
+    val sorted = matchesForPlayer.flatten.sorted
+    val (isSequential, count) = checkSequentialColumns(sorted)
+    isSequential && count >= 4
   }
 
   private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
@@ -112,6 +138,16 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
     cellValue(cellIndex(coords._1, coords._2)) match {
       case Some(cellToCheck) => (isRed && cellToCheck.isInstanceOf[RedCell]) || !isRed && cellToCheck.isInstanceOf[BlackCell]
       case None => false
+    }
+  }
+
+  private def checkSequentialColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
+    if(listOfCoords.size >= 2) {
+      val count = listOfCoords.sliding(2).count(list => list.head._1 + 1 == list(1)._1)
+      (count > 0, count + 1)
+    }
+    else {
+      (false, 0)
     }
   }
 
@@ -138,18 +174,11 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     List((x, y), (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3), (x + 4, y + 4))
   }
 
-  def rightHorizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
+  def horizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y)
+      (x - 3, y), (x - 2, y), (x - 1, y), (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y)
     )
   }
-
-  def leftHorizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List(
-      (x, y), (x - 1, y), (x - 2, y), (x - 3, y)
-    )
-  }
-
 
   def downVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
@@ -168,4 +197,5 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
   }
 
 }
+
 

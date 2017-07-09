@@ -33,12 +33,8 @@ class GridSpec extends Specification {
       tryAnotherUpdate.cellValue(0) shouldEqual Some(RedCell)
     }
 
-    "Build a list of right horizontal indices" in {
-      Grid.rightHorizontalIndices(0, 0) shouldEqual List((0,0), (1,0), (2,0), (3,0))
-    }
-
-    "Build a list of left horizontal indices" in {
-      Grid.leftHorizontalIndices(5, 0) shouldEqual List((5,0), (4,0), (3,0), (2,0))
+    "Build a list of horizontal indices" in {
+      Grid.horizontalIndices(5, 0) shouldEqual List((2,0), (3,0), (4,0), (5,0), (6,0), (7,0), (8,0))
     }
 
     "Build a list of down vertical indices" in {
@@ -73,10 +69,10 @@ class GridSpec extends Specification {
     "Detect a horizontal win" in {
       val grid = Grid
       val grid2 = grid.placeCell(0,0,Some(RedCell))
-      val grid3 = grid2.placeCell(1,0,Some(RedCell))
-      val grid4 = grid3.placeCell(2,0,Some(RedCell))
-      val grid5 = grid4.placeCell(3,0,Some(RedCell))
-      grid5.winningMove(3,0,RedCell) should beTrue
+      val grid3 = grid2.placeCell(3,0,Some(RedCell))
+      val grid4 = grid3.placeCell(1,0,Some(RedCell))
+      val grid5 = grid4.placeCell(2,0,Some(RedCell))
+      grid5.winningMove(2,0,RedCell) should beTrue
     }
 
     "Detect a vertical win" in {
@@ -100,6 +96,24 @@ class GridSpec extends Specification {
 
       val anotherGrid = Grid
       anotherGrid.canPlayColumn(0) should beTrue
+    }
+
+    "Find a column from an index" in {
+      val grid = Grid
+      grid.columnFromIndex(13) shouldEqual 6
+      grid.columnFromIndex(15) shouldEqual 1
+      grid.columnFromIndex(17) shouldEqual 3
+      grid.columnFromIndex(1) shouldEqual 1
+      grid.columnFromIndex(0) shouldEqual 0
+      grid.columnFromIndex(35) shouldEqual 0
+    }
+
+    "Find a row from an index" in {
+      val grid = Grid
+      grid.rowFromIndex(0) shouldEqual 0
+      grid.rowFromIndex(6) shouldEqual 0
+      grid.rowFromIndex(15) shouldEqual 2
+      grid.rowFromIndex(41) shouldEqual 5
     }
   }
 
