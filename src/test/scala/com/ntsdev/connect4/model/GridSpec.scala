@@ -87,6 +87,20 @@ class GridSpec extends Specification {
       val grid5 = grid4.placeCell(0,3,Some(RedCell))
       grid5.winningMove(0,3,RedCell) should beTrue
     }
+
+    "Check if a column is playable" in {
+      val grid = Grid
+      val grid2 = grid.placeCell(0,0,Some(RedCell))
+      val grid3 = grid2.placeCell(0,1,Some(BlackCell))
+      val grid4 = grid3.placeCell(0,2,Some(RedCell))
+      val grid5 = grid4.placeCell(0,3,Some(BlackCell))
+      val grid6 = grid5.placeCell(0,4,Some(RedCell))
+      val grid7 = grid6.placeCell(0,5,Some(BlackCell))
+      grid7.canPlayColumn(0) should beFalse
+
+      val anotherGrid = Grid
+      anotherGrid.canPlayColumn(0) should beTrue
+    }
   }
 
 }

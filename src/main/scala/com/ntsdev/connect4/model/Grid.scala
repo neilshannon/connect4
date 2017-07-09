@@ -76,8 +76,12 @@ class Grid(private val board:List[Option[Cell]], var win: Boolean = false) {
     horizontalWin(x, y, isRed) || verticalWin(x, y, isRed) || diagonalWin(x, y, isRed)
   }
 
+  def canPlayColumn(column: Int): Boolean = {
+    nextCellForColumn(column) != -1
+  }
+
   def nextCellForColumn(column: Int): Int = {
-    var availableRow = -1
+    val availableRow = -1
     List.range(5,0,-1).foreach(row => {
       cellValue(cellIndex(column, row)) match {
         case Some(_) => 0

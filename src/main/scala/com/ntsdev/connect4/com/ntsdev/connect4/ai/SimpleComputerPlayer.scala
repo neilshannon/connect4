@@ -6,5 +6,8 @@ class SimpleComputerPlayer {
   def nextMove(grid: Grid): (Int, Int) = {
     //find a red cell and stack on top of it or next to it.
     (0,0)
+    //try to the left
+    //try to the right
+    //try the same column
   }
 }
