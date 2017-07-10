@@ -1,29 +1,52 @@
+body {
+    margin: 0;
+}
+
+.outerContainer {
+    position : absolute;
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.innerContainer {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.centered {
+    display: inline-block;
+    padding : 20px;
+}
+
 .redCell {
     background: #f00;
-    width: 15px;
-    height: 15px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin: 1px;
 }
 
 .blackCell {
     background: #000;
-    width: 15px;
-    height: 15px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin: 1px;
 }
 
 .blankCell {
     background: #AAA;
-    width: 15px;
-    height: 15px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     margin: 1px;
 }
 
 #board {
     background: #FFD700;
-    width: 125px;
-    height: 115px;
+    width: 329px;
+    height: 282px;
+    align-self: center;
 }
