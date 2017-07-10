@@ -5,6 +5,7 @@ import com.ntsdev.connect4.model.{BlackCell, Grid, RedCell}
 import com.ntsdev.connect4.model.Grid._
 
 import scala.io.StdIn
+import scala.util.Try
 
 class Game(var grid: Grid) {
 
@@ -15,7 +16,13 @@ class Game(var grid: Grid) {
     breakable {
       do {
         print("Choose a column (0-6): ")
-        val column = StdIn.readInt()
+
+        val column = Try(StdIn.readInt()).getOrElse(-1) //todo better error handling
+        if(column < 0 || column > 6) {
+          println(s"Column $column is invalid.")
+          break() //todo better error handling
+        }
+
         val row = grid.nextCellForColumn(column)
         if (row > -1) {
           grid = grid.placeCell(column, row, Some(RedCell))

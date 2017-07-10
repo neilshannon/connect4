@@ -105,10 +105,11 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
     val horizontals: List[Option[(Int, Int)]] = Grid.horizontalIndices(x,y).map(Option(_))
     val matchesForPlayer = horizontals.map {
       case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
-      if (checkCoordinates((coords._1, coords._2), isRed))
-      Some(coords)
-      else
-      None
+        if (checkCoordinates((coords._1, coords._2), isRed))
+          Some(coords)
+        else
+          None
+      case _ => None
     }
     val sorted = matchesForPlayer.flatten.sorted
     val (isSequential, count) = checkSequentialColumns(sorted)
