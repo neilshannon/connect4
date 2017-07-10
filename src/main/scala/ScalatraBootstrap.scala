@@ -6,6 +6,6 @@ import org.scalatra._
 
 class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext) {
-    context.mount(new Connect4API, "/*")
+    context.mount(new Connect4API, "/api/*")
   }
 }

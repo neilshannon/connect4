@@ -17,9 +17,6 @@ cf version 6.23.0+c7866be18-2016-12-22
 **To Run Locally (Web)**
 `./sbt ~jetty:start`
 
-**To Run Locally (CLI)**
-`./sbt run`
-
 **To Test**
 `./sbt test`
 

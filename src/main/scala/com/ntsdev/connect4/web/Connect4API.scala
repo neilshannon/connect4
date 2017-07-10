@@ -16,11 +16,8 @@ class Connect4API extends ScalatraServlet with JacksonJsonSupport with FutureSup
 
   override val executor: ExecutionContext = ExecutionContext.global
 
-  before() {
-    contentType = formats("json")
-  }
-
   get("/startGame"){
+    contentType = formats("json")
     val game = new Game(Grid)
     game.grid.board
   }
