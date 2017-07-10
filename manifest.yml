@@ -1,0 +1,5 @@
+---
+applications:
+- name: connect4
+  buildpack: java_buildpack
+  path: target/scala-2.11/connect4-assembly-0.1.0-SNAPSHOT.jar
