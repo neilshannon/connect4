@@ -1,0 +1,29 @@
+.redCell {
+    background: #f00;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 1px;
+}
+
+.blackCell {
+    background: #000;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 1px;
+}
+
+.blankCell {
+    background: #AAA;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 1px;
+}
+
+#board {
+    background: #FFD700;
+    width: 125px;
+    height: 115px;
+}
