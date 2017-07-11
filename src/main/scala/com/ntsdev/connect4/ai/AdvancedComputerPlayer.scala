@@ -12,7 +12,7 @@ class AdvancedComputerPlayer {
     override def toString: String = "Score: [" + score + "] Column: [" + column + "]"
   }
 
-  private final val MAX_DEPTH = 4
+  private final val MAX_DEPTH = 3
 
   private var results = mutable.ListBuffer[Result]()
 

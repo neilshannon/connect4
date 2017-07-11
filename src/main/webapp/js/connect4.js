@@ -1,5 +1,5 @@
 
-function drawBoard(grid, winningPlayer){
+function drawBoard(grid){
     for(var i=0; i<42; i++){
         var row = rowFromIndex(i);
         var cellContainer = grid[i];
@@ -104,15 +104,16 @@ function makeMove(column, grid){
 }
 
 function win(player){
-    var banner = $('#winningBanner');
-    banner.text(player + " WINS!!!");
-    banner.show();
-    showNewGame();
+    showBanner(player + " WINS!!!")
 }
 
 function draw(){
+    showBanner("IT'S A DRAW!!!")
+}
+
+function showBanner(text){
     var banner = $('#winningBanner');
-    banner.text("IT'S A DRAW!");
+    banner.text(text);
     banner.show();
     showNewGame();
 }
