@@ -106,8 +106,25 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
   }
 
   private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
-    val horizontals: List[Option[(Int, Int)]] = Grid.horizontalIndices(x,y).map(Option(_))
-    val matchesForPlayer = horizontals.map {
+    val horizontals = Grid.horizontalIndices(x,y).map(Option(_))
+    checkWin(horizontals, isRed)
+  }
+
+  private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
+    Grid.downVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
+      Grid.upVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+  }
+
+  private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
+    val bLtoTR = Grid.diagonalBottomLeftToTopRightIndices(x, y).map(Option(_))
+    val tlToBR = Grid.diagonalTopLeftToBottomRightIndices(x, y).map(Option(_))
+    val bRtoTL = Grid.diagonalBottomRightToTopLeftIndices(x, y).map(Option(_))
+    val tRtoBL = Grid.diagonalTopRightToBottomLeftIndices(x, y).map(Option(_))
+    checkWin(bLtoTR, isRed) || checkWin(tlToBR, isRed) || checkWin(bRtoTL, isRed) || checkWin(tRtoBL, isRed)
+  }
+
+  private def checkWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
+    val matchesForPlayer = pieces.map {
       case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
         if (checkCoordinates((coords._1, coords._2), isRed))
           Some(coords)
@@ -118,18 +135,6 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
     val sorted = matchesForPlayer.flatten.sorted
     val (isSequential, count) = checkSequentialColumns(sorted)
     isSequential && count >= 4
-  }
-
-  private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.downVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
-      Grid.upVerticalIndices(x,y).count(checkCoordinates(_, isRed)) >= 4
-  }
-
-  private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.diagonalBottomLeftToTopRightIndices(x, y).forall(checkCoordinates(_, isRed)) ||
-    Grid.diagonalTopLeftToBottomRightIndices(x, y).forall(checkCoordinates(_, isRed)) ||
-    Grid.diagonalBottomRightToTopLeftIndices(x, y).forall(checkCoordinates(_, isRed)) ||
-    Grid.diagonalTopRightToBottomLeftIndices(x, y).forall(checkCoordinates(_, isRed))
   }
 
   private def checkCoordinates(coords: (Int, Int), isRed: Boolean) = {
