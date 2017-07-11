@@ -85,18 +85,22 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private def setCellValue(x: Int, y: Int, cell: Option[Cell], index: Int) = {
     val newGrid = new Grid(board.updated(index, cell))
-    if (newGrid.winningMove(x, y, cell.get)) {
-      cell match {
-        case Some(RedCell) =>
-          println("Red Wins!")
-          newGrid.win = true
-        case Some(BlackCell) =>
-          println("Black Wins!")
-          newGrid.win = true
-        case _ =>
-          println("Game Error!")
-          System.exit(-1)
-      }
+    cell match {
+      case Some(placedCell) =>
+        if (newGrid.winningMove(x, y, placedCell)) {
+          placedCell match {
+            case RedCell =>
+              println("Red Wins!")
+              newGrid.win = true
+            case BlackCell =>
+              println("Black Wins!")
+              newGrid.win = true
+            case _ =>
+              println("Game Error!")
+              System.exit(-1)
+          }
+        }
+      case _ => //do nothing
     }
     newGrid
   }
@@ -235,7 +239,7 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     * @return true if the column and row are valid
     */
   def validIndex(column: Int, row: Int): Boolean = {
-    column <= 6 && row <= 5
+    column <= 6 && column >= 0 && row <= 5 && row >= 0
   }
 
   /**
