@@ -113,6 +113,7 @@ function win(player){
 function draw(){
     var banner = $('#winningBanner');
     banner.text("IT'S A DRAW!");
+    banner.show();
     showNewGame();
 }
 

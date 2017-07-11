@@ -1,11 +1,10 @@
 package com.ntsdev.connect4.ai
 
-import com.ntsdev.connect4.com.ntsdev.connect4.ai.SimpleComputerPlayer
 import com.ntsdev.connect4.game.Game
 import com.ntsdev.connect4.model.{Grid, RedCell}
 import org.specs2.mutable.Specification
 
-class ComputerPlayerSpec extends Specification {
+class SimpleComputerPlayerSpec extends Specification {
   "the simple computer player" should {
     "generate a move" in {
       val testGrid = Grid

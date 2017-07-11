@@ -1,6 +1,6 @@
 package com.ntsdev.connect4.game
 
-import com.ntsdev.connect4.com.ntsdev.connect4.ai.AdvancedComputerPlayer
+import com.ntsdev.connect4.ai.AdvancedComputerPlayer
 import com.ntsdev.connect4.model.{BlackCell, Grid, RedCell}
 
 class Game(var grid: Grid, var winningPlayer: String = "") {

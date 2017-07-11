@@ -1,4 +1,4 @@
-package com.ntsdev.connect4.com.ntsdev.connect4.ai
+package com.ntsdev.connect4.ai
 
 import com.ntsdev.connect4.game.Game
 import com.ntsdev.connect4.model.{BlackCell, RedCell}
