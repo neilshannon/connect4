@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>Connect 4</title>
+        <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="/js/connect4.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/connect4.css">
+    </head>
+    <body>
+        <div class="outerContainer">
+            <div class="innerContainer">
+                <div class="centered">
+                    <table id="board">
+                        <tr id="r0">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                        <tr id="r1">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                        <tr id="r2">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                        <tr id="r3">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                        <tr id="r4">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                        <tr id="r5">
+                            <td class="blankCell col0"></td>
+                            <td class="blankCell col1"></td>
+                            <td class="blankCell col2"></td>
+                            <td class="blankCell col3"></td>
+                            <td class="blankCell col4"></td>
+                            <td class="blankCell col5"></td>
+                            <td class="blankCell col6"></td>
+                        </tr>
+                    </table>
+                    <h1 id="winningBanner"></h1>
+                    <button id="newGame" style="display:none" onclick="startGame();">New Game</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    $(function(){
+        initializeGame();
+    });
+</script>

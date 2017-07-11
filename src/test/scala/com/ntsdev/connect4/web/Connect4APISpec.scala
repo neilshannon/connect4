@@ -1,4 +1,4 @@
-package com.ntsdev.connect4.web;
+package com.ntsdev.connect4.web
 
 import org.scalatra.test.specs2.MutableScalatraSpec;
 import org.json4s.{DefaultFormats, Formats}
@@ -14,14 +14,25 @@ class Connect4APISpec extends MutableScalatraSpec {
   "GET /startGame" should {
     "begin a game and return the board" in {
         get("/startGame") {
-            status must_== 200
-            //val json = parse(response.body)
+          //val json = parse(response.body)
+          status must_== 200
         }
     }
+
     "make a move" in {
-      post("/makeMove", Array(("column","0"))){
-        status must_== 200
+      val postBody =
+        """
+          |[{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},
+          |{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},
+          |{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},
+          |{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},
+          |{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},
+          |{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"},{"cell":"[-]"}]
+        """.stripMargin
+
+      post("/makeMove?column=0", postBody, Map("Content-Type" -> "application/json")){
         //val json = parse(response.body)
+        status must_== 200
       }
     }
   }

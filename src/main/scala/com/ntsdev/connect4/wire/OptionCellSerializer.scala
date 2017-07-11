@@ -14,7 +14,7 @@ class OptionCellSerializer extends CustomSerializer[Option[Cell]](format => (
       Cell.fromString(s)
   },
   {
-    case x: Option[Cell] =>
+    case x: Option[_] =>
       if(x.isDefined) {
         val value = x.get.toString
         JObject(JField("cell", JString(value)))
