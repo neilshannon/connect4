@@ -18,5 +18,11 @@ class Connect4APISpec extends MutableScalatraSpec {
             //val json = parse(response.body)
         }
     }
+    "make a move" in {
+      post("/makeMove", Array(("column","0"))){
+        status must_== 200
+        //val json = parse(response.body)
+      }
+    }
   }
 }
