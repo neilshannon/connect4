@@ -26,6 +26,14 @@ class Connect4API extends ScalatraServlet with JacksonJsonSupport with FutureSup
     val grid = parsedBody.extract[List[Option[Cell]]]
     val game = new Game(new Grid(grid))
     val column = params("column").toInt
-    game.makeMove(column).grid.board
+    val newGame = game.makeMove(column)
+
+    if(!"".equals(newGame.winningPlayer)){
+      val winningPlayer = newGame.winningPlayer
+      Ok(newGame.grid.board, Map("Winning-Player" -> winningPlayer))
+    }
+    else {
+      Ok(newGame.grid.board)
+    }
   }
 }

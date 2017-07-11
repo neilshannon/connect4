@@ -1,5 +1,5 @@
 
-function drawBoard(grid){
+function drawBoard(grid, winningPlayer){
     for(var i=0; i<42; i++){
         var row = rowFromIndex(i);
         var cellContainer = grid[i];
@@ -14,6 +14,12 @@ function drawBoard(grid){
         } else if(cellValue === "[B]"){
             cell.removeClass("blankCell");
             cell.addClass("blackCell");
+        } else if(cellValue === "[-]"){
+            if(!cell.hasClass("blankCell")){
+                cell.removeClass("redCell");
+                cell.removeClass("blackCell");
+                cell.addClass("blankCell");
+            }
         }
     }
 }
@@ -61,9 +67,15 @@ function initializeGame(){
     startGame();
 }
 
+function hideWinners(){
+    $('#newGame').hide();
+    $('#winningBanner').hide();
+}
+
 function startGame() {
     $.ajax('/api/startGame').done(function (grid) {
-        drawBoard(grid);
+        hideWinners();
+        drawBoard(grid, "");
         serializeGrid();
     });
 }
@@ -75,8 +87,35 @@ function makeMove(column, grid){
         processData: false,
         contentType: 'application/json',
         data: grid,
-        success: function(grid) {
+        success: function(grid, textStatus, request) {
             drawBoard(grid);
-        }
+            var winningPlayer = request.getResponseHeader('Winning-Player');
+            if(winningPlayer !== ""){
+                if(winningPlayer === "RED"){
+                    win("Red");
+                } else if (winningPlayer === "BLACK"){
+                    win("Black");
+                } else if (winningPlayer === "DRAW"){
+                    draw();
+                }
+            }
+      }
     });
+}
+
+function win(player){
+    var banner = $('#winningBanner');
+    banner.text(player + " WINS!!!");
+    banner.show();
+    showNewGame();
+}
+
+function draw(){
+    var banner = $('#winningBanner');
+    banner.text("IT'S A DRAW!");
+    showNewGame();
+}
+
+function showNewGame(){
+    $('#newGame').show();
 }
