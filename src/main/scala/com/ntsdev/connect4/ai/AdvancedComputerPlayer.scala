@@ -35,7 +35,7 @@ class AdvancedComputerPlayer {
     * @param bestScore the calculated score of the move
     * @return the best column
     */
-  private def getBestColumn(bestScore: Int): Int = {
+  private def getBestColumn(bestScore: Int, board: Game): Int = {
     import scala.util.control.Breaks._
     var best: Result = null
     breakable {
@@ -46,7 +46,11 @@ class AdvancedComputerPlayer {
         }
       }
     }
-    best.column
+    if(null == best){ //couldn't find a winning column in depth 3
+      board.getAvailableColumns.head
+    } else {
+      best.column
+    }
   }
 
   private def calcMin(scores: List[Int]): Int = scores.min
