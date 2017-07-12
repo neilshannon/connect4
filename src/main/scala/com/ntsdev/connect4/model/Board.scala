@@ -137,7 +137,8 @@ class Board(val board:List[Option[Cell]], var win: Boolean = false) {
           None
       case _ => None
     }
-    val sorted = matchesForPlayer.flatten.sorted
+    val flat = matchesForPlayer.flatten
+    val sorted = flat.sorted
     val (isSequential, count) = checkSequentialHorizontalColumns(sorted)
     isSequential && count >= 4
   }
