@@ -1,5 +1,5 @@
 
-function drawBoard(grid, winningPlayer){
+function drawBoard(grid){
     for(var i=0; i<42; i++){
         var row = rowFromIndex(i);
         var cellContainer = grid[i];
@@ -34,7 +34,7 @@ function rowFromIndex(index){
 
 function serializeGrid(){
     var gridArray = [];
-    $("#board tr td").each(function(index, td){ var obj = {"cell": buildCell(td)}; gridArray.push(obj);});
+    $("#board").find("tr td").each(function(index, td){ var obj = {"cell": buildCell(td)}; gridArray.push(obj);});
     return JSON.stringify(gridArray);
 }
 

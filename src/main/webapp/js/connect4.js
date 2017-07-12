@@ -34,7 +34,7 @@ function rowFromIndex(index){
 
 function serializeGrid(){
     var gridArray = [];
-    $("#board tr td").each(function(index, td){ var obj = {"cell": buildCell(td)}; gridArray.push(obj);});
+    $("#board").find("tr td").each(function(index, td){ var obj = {"cell": buildCell(td)}; gridArray.push(obj);});
     return JSON.stringify(gridArray);
 }
 
@@ -73,7 +73,7 @@ function hideWinners(){
 }
 
 function startGame() {
-    $.ajax('/api/startGame').done(function (grid) {
+    $.ajax('/api/startGame?advanced=true').done(function (grid) {
         hideWinners();
         drawBoard(grid, "");
         serializeGrid();

@@ -1,9 +1,7 @@
 package com.ntsdev.connect4.web
 
-import org.scalatra.test.specs2.MutableScalatraSpec;
 import org.json4s.{DefaultFormats, Formats}
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
+import org.scalatra.test.specs2.MutableScalatraSpec
 
 class Connect4APISpec extends MutableScalatraSpec {
 
@@ -14,7 +12,6 @@ class Connect4APISpec extends MutableScalatraSpec {
   "GET /startGame" should {
     "begin a game and return the board" in {
         get("/startGame?advanced=true") {
-          //val json = parse(response.body)
           status must_== 200
         }
     }
@@ -31,7 +28,6 @@ class Connect4APISpec extends MutableScalatraSpec {
         """.stripMargin
 
       post("/makeMove?column=0", postBody, Map("Content-Type" -> "application/json")){
-        //val json = parse(response.body)
         status must_== 200
       }
     }

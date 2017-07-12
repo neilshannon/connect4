@@ -20,31 +20,24 @@ body {
     padding : 20px;
 }
 
-.redCell {
-    background: #f00;
+td {
     width: 45px;
     height: 45px;
     border-radius: 50%;
     margin: 1px;
     cursor: pointer;
+}
+
+.redCell {
+    background: #f00;
 }
 
 .blackCell {
     background: #000;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    margin: 1px;
-    cursor: pointer;
 }
 
 .blankCell {
     background: #AAA;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    margin: 1px;
-    cursor: pointer;
 }
 
 #board {

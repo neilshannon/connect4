@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
+/**
+  * An advanced computer player that uses a lookahead strategy to determine the next move.
+  */
 class AdvancedComputerPlayer extends ComputerPlayer {
 
   private final val log = LoggerFactory.getLogger(getClass)
@@ -15,6 +18,7 @@ class AdvancedComputerPlayer extends ComputerPlayer {
     override def toString: String = "Score: [" + score + "] Column: [" + column + "]"
   }
 
+  //cranking this up to 7 or higher almost guarantees a computer win, but it's slow without heuristics
   private final val MAX_DEPTH = 5
 
   private var results = mutable.ListBuffer[Result]()
@@ -32,12 +36,6 @@ class AdvancedComputerPlayer extends ComputerPlayer {
     move
   }
 
-  /**
-    * Finds the best calculated column for the computer to play
-    *
-    * @param bestScore the calculated score of the move
-    * @return the best column
-    */
   private def getBestColumn(bestScore: Int, board: Game): Int = {
     import scala.util.control.Breaks._
     var best: Result = null

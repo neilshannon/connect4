@@ -1,8 +1,13 @@
 package com.ntsdev.connect4.model
-import Grid._
+import Board._
 import org.slf4j.LoggerFactory
 
-class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
+/**
+  * The game board
+  * @param board
+  * @param win
+  */
+class Board(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private final val log = LoggerFactory.getLogger(getClass)
 
@@ -25,9 +30,9 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
     * @param cell the cell to place
     * @return
     */
-  def placeCell(x: Int, y: Int, cell: Option[Cell]): Grid = {
+  def placeCell(x: Int, y: Int, cell: Option[Cell]): Board = {
     val index = cellIndex(x, y)
-    if(Grid.validIndex(x,y)) {
+    if(Board.validIndex(x,y)) {
       board(index) match {
         case None =>
           setCellValue(x, y, cell, index)
@@ -86,46 +91,46 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
   }
 
   private def setCellValue(x: Int, y: Int, cell: Option[Cell], index: Int) = {
-    val newGrid = new Grid(board.updated(index, cell))
+    val newBoard = new Board(board.updated(index, cell))
     cell match {
       case Some(placedCell) =>
-        if (newGrid.winningMove(x, y, placedCell)) {
+        if (newBoard.winningMove(x, y, placedCell)) {
           placedCell match {
             case RedCell =>
-              println("Red Wins!")
-              newGrid.win = true
+              log.debug("Red Wins!")
+              newBoard.win = true
             case BlackCell =>
-              println("Black Wins!")
-              newGrid.win = true
+              log.debug("Black Wins!")
+              newBoard.win = true
             case _ =>
-              println("Game Error!")
+              log.debug("Game Error!")
               System.exit(-1)
           }
         }
       case _ => //do nothing
     }
-    newGrid
+    newBoard
   }
 
   private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
-    val horizontals = Grid.horizontalIndices(x,y).map(Option(_))
+    val horizontals = Board.horizontalIndices(x,y).map(Option(_))
     checkHorizontalWin(horizontals, isRed)
   }
 
   private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
-   val verticals = Grid.verticalIndices(x,y).map(Option(_))
+   val verticals = Board.verticalIndices(x,y).map(Option(_))
     checkVerticalWin(verticals, isRed)
   }
 
   private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
-    val bLtoTR = Grid.diagonalBottomLeftToTopRightIndices(x, y).map(Option(_))
-    val tlToBR = Grid.diagonalTopLeftToBottomRightIndices(x, y).map(Option(_))
+    val bLtoTR = Board.diagonalBottomLeftToTopRightIndices(x, y).map(Option(_))
+    val tlToBR = Board.diagonalTopLeftToBottomRightIndices(x, y).map(Option(_))
     checkHorizontalWin(bLtoTR, isRed) || checkHorizontalWin(tlToBR, isRed)
   }
 
   private def checkHorizontalWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
     val matchesForPlayer = pieces.map {
-      case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
+      case Some(coords: (Int, Int)) if Board.validIndex(coords._1, coords._2) =>
         if (checkCoordinates((coords._1, coords._2), isRed))
           Some(coords)
         else
@@ -139,7 +144,7 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private def checkVerticalWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
     val matchesForPlayer = pieces.map {
-      case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
+      case Some(coords: (Int, Int)) if Board.validIndex(coords._1, coords._2) =>
         if (checkCoordinates((coords._1, coords._2), isRed))
           Some(coords)
         else
@@ -196,7 +201,7 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 /**
   * The game board.  Begins blank.
   */
-object Grid extends Grid(board = List.fill(42)(None), win = false) {
+object Board extends Board(board = List.fill(42)(None), win = false) {
 
   /**
     * Diagonal indices based on an x,y pair

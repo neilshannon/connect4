@@ -1,5 +1,8 @@
 package com.ntsdev.connect4.model
 
+/**
+  * A cell that can have a piece played or be blank
+  */
 sealed abstract class Cell
 
 object Cell {

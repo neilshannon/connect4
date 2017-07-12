@@ -1,9 +1,13 @@
 package com.ntsdev.connect4.ai
 
 import com.ntsdev.connect4.game.Game
-import com.ntsdev.connect4.model.Grid._
+import com.ntsdev.connect4.model.Board._
 import com.ntsdev.connect4.model.RedCell
 
+/**
+  * A dumb AI that attempts to play the same column that the player last played, or
+  * if not possible on either side.
+  */
 class SimpleComputerPlayer extends ComputerPlayer {
   def nextMove(game: Game): Int = {
     val grid = game.grid

@@ -7,6 +7,9 @@ import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.util.resource.Resource
 import java.net.URI
 
+/**
+  * Main entry point.  Launches an embedded Jetty Server and bootstraps the API and static content
+  */
 object JettyLauncher {
   def main(args: Array[String]): Unit = {
 
