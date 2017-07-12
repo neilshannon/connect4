@@ -11,7 +11,7 @@ import com.ntsdev.connect4.model.RedCell
 class SimpleComputerPlayer extends ComputerPlayer {
   def nextMove(game: Game): Int = {
     val grid = game.grid
-    //find a red cell and stack on top of it or next to it.
+
     val lastRedIndex = grid.board.indexWhere({
       case Some(RedCell) => true
       case _ => false

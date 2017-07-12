@@ -20,8 +20,11 @@ class AdvancedComputerPlayer extends ComputerPlayer {
 
   //cranking this up to 7 or higher almost guarantees a computer win, but it's slow without heuristics
   private final val MAX_DEPTH = 5
+  private final val BLACK = "BLACK" //computer
+  private final val RED = "RED" //player
 
   private var results = mutable.ListBuffer[Result]()
+
 
   /**
     * Pick a next move for the computer
@@ -31,7 +34,7 @@ class AdvancedComputerPlayer extends ComputerPlayer {
     */
   def nextMove(board: Game): Int = {
     results = ListBuffer[Result]()
-    val score = minimax("BLACK", board, 0)
+    val score = minimax(BLACK, board, 0)
     val move = getBestColumn(score, board)
     move
   }
@@ -71,22 +74,22 @@ class AdvancedComputerPlayer extends ComputerPlayer {
   private def minimax(player: String, game: Game, depth: Int): Int = {
     var scores = mutable.ListBuffer[Int]()
     val moves = game.getAvailableColumns
-    if (game.winningPlayer == "BLACK") return 1000
-    if (game.winningPlayer == "RED") return 0
+    if (game.winningPlayer eq BLACK) return 1000
+    if (game.winningPlayer eq RED) return 0
     if (moves.isEmpty || depth == MAX_DEPTH) return 500
 
     for (column <- moves) {
       val row = game.grid.nextCellForColumn(column)
 
-      if (player == "BLACK") {
+      if (player eq BLACK) {
         //make computer move
         val newGrid = game.grid.placeCell(column, row, Some(BlackCell))
-        val winningPlayer = if(newGrid.win) "BLACK" else ""
+        val winningPlayer = if(newGrid.win) BLACK else ""
         val newGame = new Game(newGrid, winningPlayer)
 
         log.debug("Computer [" + column + "], [" + row + "], depth: [" + depth + "]")
 
-        val currentScore = minimax("RED", newGame, depth + 1)
+        val currentScore = minimax(RED, newGame, depth + 1)
         scores += currentScore
         if (depth == 0){
           results += Result(currentScore, column)
@@ -95,18 +98,18 @@ class AdvancedComputerPlayer extends ComputerPlayer {
       else {
         val newGrid = game.grid.placeCell(column, row, Some(RedCell)) //make the move for the human player
 
-        val winningPlayer = if(newGrid.win) "RED" else ""
+        val winningPlayer = if(newGrid.win) RED else ""
         val newGame = new Game(newGrid, winningPlayer)
 
         log.debug("Player [" + column + "], [" + row + "]")
 
-        val currentScore = minimax("BLACK", newGame, depth + 1)
+        val currentScore = minimax(BLACK, newGame, depth + 1)
         scores += currentScore
       }
       game.grid.placeCell(column, row, None) //undo move
     }
 
-    if (player eq "BLACK") {
+    if (player eq BLACK) {
       calcMax(scores.toList) //maximize computer score
     }
     else{

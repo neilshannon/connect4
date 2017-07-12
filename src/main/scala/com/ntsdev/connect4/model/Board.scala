@@ -4,8 +4,8 @@ import org.slf4j.LoggerFactory
 
 /**
   * The game board
-  * @param board
-  * @param win
+  * @param board a grid of cells
+  * @param win true if a player has won on the last move
   */
 class Board(val board:List[Option[Cell]], var win: Boolean = false) {
 
