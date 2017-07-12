@@ -73,10 +73,9 @@ function hideWinners(){
 }
 
 function startGame() {
-    $.ajax('/api/startGame').done(function (grid) {
+    $.ajax('/api/startGame?advanced=true').done(function (grid) {
         hideWinners();
         drawBoard(grid, "");
-        serializeGrid();
     });
 }
 
@@ -104,18 +103,28 @@ function makeMove(column, grid){
 }
 
 function win(player){
-    var banner = $('#winningBanner');
-    banner.text(player + " WINS!!!");
-    banner.show();
-    showNewGame();
+    haltPlay();
+    showBanner(player + " WINS!!!");
 }
 
 function draw(){
+    haltPlay();
+    showBanner("IT'S A DRAW!!!");
+    showNewGame();
+}
+
+function showBanner(text){
+    haltPlay();
     var banner = $('#winningBanner');
-    banner.text("IT'S A DRAW!");
+    banner.text(text);
+    banner.show();
     showNewGame();
 }
 
 function showNewGame(){
     $('#newGame').show();
+}
+
+function haltPlay(){
+    $('td').off('click');
 }

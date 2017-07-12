@@ -20,7 +20,8 @@ body {
     padding : 20px;
 }
 
-td {
+.redCell {
+    background: #f00;
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -28,16 +29,22 @@ td {
     cursor: pointer;
 }
 
-.redCell {
-    background: #f00;
-}
-
 .blackCell {
     background: #000;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin: 1px;
+    cursor: pointer;
 }
 
 .blankCell {
     background: #AAA;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin: 1px;
+    cursor: pointer;
 }
 
 #board {
