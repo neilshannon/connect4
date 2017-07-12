@@ -28,7 +28,6 @@ object JettyLauncher {
     if(null != System.getenv("VCAP_SERVICES")){
       val webRootLocation = this.getClass.getResource("/webapp/assets/index.html")
       val webRootUri = URI.create(webRootLocation.toURI.toASCIIString.replaceFirst("/assets/index.html$", ""))
-      System.err.println(webRootUri)
       context.setBaseResource(Resource.newResource(webRootUri))
     } else {
       context.setResourceBase("src/main/webapp")
