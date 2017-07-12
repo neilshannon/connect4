@@ -76,7 +76,6 @@ function startGame() {
     $.ajax('/api/startGame?advanced=true').done(function (grid) {
         hideWinners();
         drawBoard(grid, "");
-        serializeGrid();
     });
 }
 
