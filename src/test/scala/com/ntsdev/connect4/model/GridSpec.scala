@@ -34,36 +34,26 @@ class GridSpec extends Specification {
     }
 
     "Build a list of horizontal indices" in {
-      Grid.horizontalIndices(5, 0) shouldEqual List((2,0), (3,0), (4,0), (5,0), (6,0), (7,0), (8,0))
+      Grid.horizontalIndices(5, 0) shouldEqual List((0,0), (1,0), (2,0), (3,0), (4,0), (5,0), (6,0), (7,0), (8,0), (9,0), (10,0))
     }
 
     "Build a list of down vertical indices" in {
-      Grid.downVerticalIndices(0, 0) shouldEqual List((0,0), (0,1), (0,2), (0,3))
+      Grid.downVerticalIndices(0, 0) shouldEqual List((0,0), (0,1), (0,2), (0,3), (0,4))
     }
 
     "Build a list of up vertical indices" in {
-      Grid.upVerticalIndices(0,5) shouldEqual List((0,5), (0,4), (0,3), (0,2))
+      Grid.upVerticalIndices(0,5) shouldEqual List((0,5), (0,4), (0,3), (0,2), (0,1), (0,0))
     }
 
     "Build a list of top left to bottom right diagonal indices" in {
-      Grid.diagonalTopLeftToBottomRightIndices(0, 0) shouldEqual List((0,0), (1,1), (2,2), (3,3), (4,4))
-      Grid.diagonalTopLeftToBottomRightIndices(0, 1) shouldEqual List((0,1), (1,2), (2,3), (3,4), (4,5))
-      Grid.diagonalTopLeftToBottomRightIndices(1, 1) shouldEqual List((1,1), (2,2), (3,3), (4,4), (5,5))
+      Grid.diagonalTopLeftToBottomRightIndices(0, 0) shouldEqual List((-5,-5), (-4,-4), (-3,-3), (-2,-2), (-1,-1), (0,0), (1,1), (2,2), (3,3), (4,4), (5,5))
+      Grid.diagonalTopLeftToBottomRightIndices(0, 1) shouldEqual List((-5,-4), (-4,-3), (-3,-2), (-2,-1), (-1,0), (0,1), (1,2), (2,3), (3,4), (4,5), (5,6))
+      Grid.diagonalTopLeftToBottomRightIndices(1, 1) shouldEqual List((-4,-4), (-3,-3), (-2,-2), (-1,-1), (0,0), (1,1), (2,2), (3,3), (4,4), (5,5), (6,6))
     }
 
     "Build a list of bottom left to top right diagonal indices" in {
-      Grid.diagonalBottomLeftToTopRightIndices(0, 5) shouldEqual List((0,5), (1,4), (2,3), (3,2), (4,1))
-      Grid.diagonalBottomLeftToTopRightIndices(1, 4) shouldEqual List((1,4), (2,3), (3,2), (4,1), (5,0))
-    }
-
-    "Build a list of top right to bottom left diagonal indices" in {
-      Grid.diagonalTopRightToBottomLeftIndices(6, 0) shouldEqual List((6,0), (5,1), (4,2), (3,3), (2,4))
-      Grid.diagonalTopRightToBottomLeftIndices(6, 1) shouldEqual List((6,1), (5,2), (4,3), (3,4), (2,5))
-    }
-
-    "Build a list of bottom right to top left diagonal indices" in {
-      Grid.diagonalBottomRightToTopLeftIndices(6, 5) shouldEqual List((6,5), (5,4), (4,3), (3,2), (2,1))
-      Grid.diagonalBottomRightToTopLeftIndices(6, 4) shouldEqual List((6,4), (5,3), (4,2), (3,1), (2,0))
+      Grid.diagonalBottomLeftToTopRightIndices(0, 5) shouldEqual List((-5,10), (-4,9), (-3,8), (-2,7), (-1,6), (0,5), (1,4), (2,3), (3,2), (4,1), (5,0))
+      Grid.diagonalBottomLeftToTopRightIndices(1, 4) shouldEqual List((-4,9), (-3,8), (-2,7), (-1,6), (0,5), (1,4), (2,3), (3,2), (4,1), (5,0), (6,-1))
     }
 
     "Detect a horizontal win" in {
@@ -82,6 +72,15 @@ class GridSpec extends Specification {
       val grid4 = grid3.placeCell(0,2,Some(RedCell))
       val grid5 = grid4.placeCell(0,3,Some(RedCell))
       grid5.winningMove(0,3,RedCell) should beTrue
+    }
+
+    "Detect a diagonal win" in {
+      val grid = Grid
+      val grid2 = grid.placeCell(0,2,Some(RedCell))
+      val grid3 = grid2.placeCell(1,3,Some(RedCell))
+      val grid4 = grid3.placeCell(3,5,Some(RedCell))
+      val grid5 = grid4.placeCell(2,4,Some(RedCell))
+      grid5.winningMove(2,4,RedCell) should beTrue
     }
 
     "Check if a column is playable" in {

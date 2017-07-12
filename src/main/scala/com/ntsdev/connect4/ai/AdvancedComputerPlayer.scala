@@ -2,17 +2,20 @@ package com.ntsdev.connect4.ai
 
 import com.ntsdev.connect4.game.Game
 import com.ntsdev.connect4.model.{BlackCell, RedCell}
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 class AdvancedComputerPlayer {
 
+  private final val log = LoggerFactory.getLogger(getClass)
+
   case class Result(score: Int, column: Int){
     override def toString: String = "Score: [" + score + "] Column: [" + column + "]"
   }
 
-  private final val MAX_DEPTH = 3
+  private final val MAX_DEPTH = 5
 
   private var results = mutable.ListBuffer[Result]()
 
@@ -25,7 +28,7 @@ class AdvancedComputerPlayer {
   def nextMove(board: Game): Int = {
     results = ListBuffer[Result]()
     val score = minimax("BLACK", board, 0)
-    val move = getBestColumn(score)
+    val move = getBestColumn(score, board)
     move
   }
 
@@ -46,7 +49,7 @@ class AdvancedComputerPlayer {
         }
       }
     }
-    if(null == best){ //couldn't find a winning column in depth 3
+    if(null == best){ //couldn't find a winning column in depth 5
       board.getAvailableColumns.head
     } else {
       best.column
@@ -83,7 +86,7 @@ class AdvancedComputerPlayer {
         val winningPlayer = if(newGrid.win) "BLACK" else ""
         val newGame = new Game(newGrid, winningPlayer)
 
-        println("Computer [" + column + "], [" + row + "], depth: [" + depth + "]")
+        log.debug("Computer [" + column + "], [" + row + "], depth: [" + depth + "]")
 
         val currentScore = minimax("RED", newGame, depth + 1)
         scores += currentScore
@@ -97,7 +100,7 @@ class AdvancedComputerPlayer {
         val winningPlayer = if(newGrid.win) "RED" else ""
         val newGame = new Game(newGrid, winningPlayer)
 
-        println("Player [" + column + "], [" + row + "]")
+        log.debug("Player [" + column + "], [" + row + "]")
 
         val currentScore = minimax("BLACK", newGame, depth + 1)
         scores += currentScore

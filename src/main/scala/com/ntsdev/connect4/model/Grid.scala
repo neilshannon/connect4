@@ -118,9 +118,7 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
   private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
     val bLtoTR = Grid.diagonalBottomLeftToTopRightIndices(x, y).map(Option(_))
     val tlToBR = Grid.diagonalTopLeftToBottomRightIndices(x, y).map(Option(_))
-    val bRtoTL = Grid.diagonalBottomRightToTopLeftIndices(x, y).map(Option(_))
-    val tRtoBL = Grid.diagonalTopRightToBottomLeftIndices(x, y).map(Option(_))
-    checkWin(bLtoTR, isRed) || checkWin(tlToBR, isRed) || checkWin(bRtoTL, isRed) || checkWin(tRtoBL, isRed)
+    checkWin(bLtoTR, isRed) || checkWin(tlToBR, isRed)
   }
 
   private def checkWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
@@ -167,28 +165,9 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     * @param y y coordinate
     * @return a list of diagonals
     */
-  def diagonalBottomRightToTopLeftIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List((x, y), (x - 1, y - 1), (x - 2, y - 2), (x - 3, y - 3), (x - 4, y - 4))
-  }
-
-  /**
-    * Diagonal indices based on an x,y pair
-    * @param x x coordinate
-    * @param y y coordinate
-    * @return a list of diagonals
-    */
-  def diagonalTopRightToBottomLeftIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List((x, y), (x - 1, y + 1), (x - 2, y + 2), (x - 3, y + 3), (x - 4, y + 4))
-  }
-
-  /**
-    * Diagonal indices based on an x,y pair
-    * @param x x coordinate
-    * @param y y coordinate
-    * @return a list of diagonals
-    */
   def diagonalBottomLeftToTopRightIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List((x, y), (x + 1, y - 1), (x + 2, y - 2), (x + 3, y - 3), (x + 4, y - 4))
+    List((x - 5, y + 5), (x - 4, y + 4), (x - 3, y + 3), (x - 2, y + 2), (x - 1, y + 1), (x, y),
+      (x + 1, y - 1), (x + 2, y - 2), (x + 3, y - 3),(x + 4, y - 4),(x + 5, y - 5))
   }
 
   /**
@@ -198,7 +177,10 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     * @return a list of diagonals
     */
   def diagonalTopLeftToBottomRightIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List((x, y), (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3), (x + 4, y + 4))
+    List(
+       (x - 5, y - 5),(x - 4, y - 4),(x - 3, y - 3),(x - 2, y - 2),(x - 1, y - 1),(x, y),
+       (x + 1, y + 1), (x + 2, y + 2), (x + 3, y + 3),(x + 4, y + 4),(x + 5, y + 5)
+    )
   }
 
   /**
@@ -209,7 +191,8 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     */
   def horizontalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x - 3, y), (x - 2, y), (x - 1, y), (x, y), (x + 1, y), (x + 2, y) ,(x + 3, y)
+      (x - 5, y), (x - 4, y), (x - 3, y), (x - 2, y), (x - 1, y), (x, y),
+      (x + 1, y), (x + 2, y) ,(x + 3, y),(x + 4, y),(x + 5, y)
     )
   }
 
@@ -221,7 +204,7 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     */
   def downVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x, y + 1), (x, y + 2) ,(x, y + 3)
+      (x, y), (x, y + 1), (x, y + 2) ,(x, y + 3), (x, y + 4)
     )
   }
 
@@ -233,7 +216,7 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     */
   def upVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x, y - 1), (x, y - 2), (x, y - 3)
+      (x, y), (x, y - 1), (x, y - 2), (x, y - 3),(x, y - 4),(x, y - 5)
     )
   }
 

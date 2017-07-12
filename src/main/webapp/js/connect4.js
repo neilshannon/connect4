@@ -104,14 +104,18 @@ function makeMove(column, grid){
 }
 
 function win(player){
-    showBanner(player + " WINS!!!")
+    haltPlay();
+    showBanner(player + " WINS!!!");
 }
 
 function draw(){
-    showBanner("IT'S A DRAW!!!")
+    haltPlay();
+    showBanner("IT'S A DRAW!!!");
+    showNewGame();
 }
 
 function showBanner(text){
+    haltPlay();
     var banner = $('#winningBanner');
     banner.text(text);
     banner.show();
@@ -120,4 +124,8 @@ function showBanner(text){
 
 function showNewGame(){
     $('#newGame').show();
+}
+
+function haltPlay(){
+    $('td').off('click');
 }

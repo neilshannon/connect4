@@ -10,6 +10,7 @@ class Game(var grid: Grid, var winningPlayer: String = "") {
     grid = grid.placeCell(column, row, Some(RedCell))
     if (grid.win) {
       winningPlayer = "RED"
+      return new Game(grid, winningPlayer)
     }
     val nextColumn = computer.nextMove(this)
     grid = grid.placeCell(nextColumn, grid.nextCellForColumn(nextColumn), Some(BlackCell))
