@@ -1,4 +1,4 @@
-package com.ntsdev.connect4.com.ntsdev.connect4.run
+package com.ntsdev.connect4.run
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.DefaultServlet

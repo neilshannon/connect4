@@ -19,7 +19,7 @@ class AdvancedComputerPlayer extends ComputerPlayer {
   }
 
   //cranking this up to 7 or higher almost guarantees a computer win, but it's slow without heuristics
-  private final val MAX_DEPTH = 4
+  private final val MAX_DEPTH = 5
   private final val BLACK = "BLACK" //computer
   private final val RED = "RED" //player
 
