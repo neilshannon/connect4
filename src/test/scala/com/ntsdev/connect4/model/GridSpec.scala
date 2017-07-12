@@ -37,12 +37,8 @@ class GridSpec extends Specification {
       Grid.horizontalIndices(5, 0) shouldEqual List((0,0), (1,0), (2,0), (3,0), (4,0), (5,0), (6,0), (7,0), (8,0), (9,0), (10,0))
     }
 
-    "Build a list of down vertical indices" in {
-      Grid.downVerticalIndices(0, 0) shouldEqual List((0,0), (0,1), (0,2), (0,3), (0,4))
-    }
-
-    "Build a list of up vertical indices" in {
-      Grid.upVerticalIndices(0,5) shouldEqual List((0,5), (0,4), (0,3), (0,2), (0,1), (0,0))
+    "Build a list of vertical indices" in {
+      Grid.verticalIndices(0, 0) shouldEqual List((0,-5), (0,-4), (0,-3), (0,-2), (0,-1), (0,0), (0,1), (0,2), (0,3), (0,4), (0,5))
     }
 
     "Build a list of top left to bottom right diagonal indices" in {
@@ -67,11 +63,11 @@ class GridSpec extends Specification {
 
     "Detect a vertical win" in {
       val grid = Grid
-      val grid2 = grid.placeCell(0,0,Some(RedCell))
-      val grid3 = grid2.placeCell(0,1,Some(RedCell))
-      val grid4 = grid3.placeCell(0,2,Some(RedCell))
-      val grid5 = grid4.placeCell(0,3,Some(RedCell))
-      grid5.winningMove(0,3,RedCell) should beTrue
+      val grid2 = grid.placeCell(0,3,Some(RedCell))
+      val grid3 = grid2.placeCell(0,2,Some(RedCell))
+      val grid4 = grid3.placeCell(0,1,Some(RedCell))
+      val grid5 = grid4.placeCell(0,0,Some(RedCell))
+      grid5.winningMove(0,0,RedCell) should beTrue
     }
 
     "Detect a diagonal win" in {

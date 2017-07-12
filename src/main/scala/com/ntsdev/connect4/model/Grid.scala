@@ -107,21 +107,21 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private def horizontalWin(x: Int, y: Int, isRed: Boolean) = {
     val horizontals = Grid.horizontalIndices(x,y).map(Option(_))
-    checkWin(horizontals, isRed)
+    checkHorizontalWin(horizontals, isRed)
   }
 
   private def verticalWin(x: Int, y: Int, isRed: Boolean) = {
-    Grid.downVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4 ||
-      Grid.upVerticalIndices(x, y).count(checkCoordinates(_, isRed)) >= 4
+   val verticals = Grid.verticalIndices(x,y).map(Option(_))
+    checkVerticalWin(verticals, isRed)
   }
 
   private def diagonalWin(x: Int, y: Int, isRed: Boolean) = {
     val bLtoTR = Grid.diagonalBottomLeftToTopRightIndices(x, y).map(Option(_))
     val tlToBR = Grid.diagonalTopLeftToBottomRightIndices(x, y).map(Option(_))
-    checkWin(bLtoTR, isRed) || checkWin(tlToBR, isRed)
+    checkHorizontalWin(bLtoTR, isRed) || checkHorizontalWin(tlToBR, isRed)
   }
 
-  private def checkWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
+  private def checkHorizontalWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
     val matchesForPlayer = pieces.map {
       case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
         if (checkCoordinates((coords._1, coords._2), isRed))
@@ -131,9 +131,24 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
       case _ => None
     }
     val sorted = matchesForPlayer.flatten.sorted
-    val (isSequential, count) = checkSequentialColumns(sorted)
+    val (isSequential, count) = checkSequentialHorizontalColumns(sorted)
     isSequential && count >= 4
   }
+
+  private def checkVerticalWin(pieces: List[Option[(Int, Int)]], isRed: Boolean): Boolean = {
+    val matchesForPlayer = pieces.map {
+      case Some(coords: (Int, Int)) if Grid.validIndex(coords._1, coords._2) =>
+        if (checkCoordinates((coords._1, coords._2), isRed))
+          Some(coords)
+        else
+          None
+      case _ => None
+    }
+    val sorted = matchesForPlayer.flatten.sorted
+    val (isSequential, count) = checkSequentialVerticalColumns(sorted)
+    isSequential && count >= 4
+  }
+
 
   private def checkCoordinates(coords: (Int, Int), isRed: Boolean) = {
     cellValue(cellIndex(coords._1, coords._2)) match {
@@ -142,7 +157,7 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
     }
   }
 
-  private def checkSequentialColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
+  private def checkSequentialHorizontalColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
     if(listOfCoords.size >= 2) {
       val count = listOfCoords.sliding(2).count(list => list.head._1 + 1 == list(1)._1)
       (count > 0, count + 1)
@@ -151,6 +166,17 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
       (false, 0)
     }
   }
+
+  private def checkSequentialVerticalColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
+    if(listOfCoords.size >= 2) {
+      val count = listOfCoords.sliding(2).count(list => list.head._2 + 1 == list(1)._2)
+      (count > 0, count + 1)
+    }
+    else {
+      (false, 0)
+    }
+  }
+
 
 }
 
@@ -166,8 +192,10 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     * @return a list of diagonals
     */
   def diagonalBottomLeftToTopRightIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List((x - 5, y + 5), (x - 4, y + 4), (x - 3, y + 3), (x - 2, y + 2), (x - 1, y + 1), (x, y),
-      (x + 1, y - 1), (x + 2, y - 2), (x + 3, y - 3),(x + 4, y - 4),(x + 5, y - 5))
+    List(
+      (x - 5, y + 5), (x - 4, y + 4), (x - 3, y + 3), (x - 2, y + 2), (x - 1, y + 1), (x, y),
+      (x + 1, y - 1), (x + 2, y - 2), (x + 3, y - 3),(x + 4, y - 4),(x + 5, y - 5)
+    )
   }
 
   /**
@@ -202,21 +230,10 @@ object Grid extends Grid(board = List.fill(42)(None), win = false) {
     * @param y y coordinate
     * @return a list of coordinates vertical to the given x,y pair
     */
-  def downVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
+  def verticalIndices(x: Int, y: Int): List[(Int, Int)] = {
     List(
-      (x, y), (x, y + 1), (x, y + 2) ,(x, y + 3), (x, y + 4)
-    )
-  }
-
-  /**
-    * Vertical indices to check for a given x, y pair
-    * @param x x coordinate
-    * @param y y coordinate
-    * @return a list of coordinates vertical to the given x,y pair
-    */
-  def upVerticalIndices(x: Int, y: Int): List[(Int, Int)] = {
-    List(
-      (x, y), (x, y - 1), (x, y - 2), (x, y - 3),(x, y - 4),(x, y - 5)
+      (x, y - 5), (x, y - 4), (x, y - 3), (x, y - 2), (x, y - 1), (x, y),
+      (x, y + 1), (x, y + 2) ,(x, y + 3), (x, y + 4), (x, y + 5)
     )
   }
 
