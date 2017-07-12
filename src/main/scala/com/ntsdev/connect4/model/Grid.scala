@@ -1,8 +1,10 @@
 package com.ntsdev.connect4.model
 import Grid._
+import org.slf4j.LoggerFactory
 
 class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
+  private final val log = LoggerFactory.getLogger(getClass)
 
   /**
     * Retrieve the value for a given cell
@@ -144,9 +146,14 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
           None
       case _ => None
     }
-    val sorted = matchesForPlayer.flatten.sorted
+    val flat = matchesForPlayer.flatten
+    val sorted = flat.sorted
     val (isSequential, count) = checkSequentialVerticalColumns(sorted)
-    isSequential && count >= 4
+    val win = isSequential && count >= 4
+    if(win){
+      log.debug("Vertical Win!")
+    }
+    win
   }
 
 
@@ -159,8 +166,11 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private def checkSequentialHorizontalColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
     if(listOfCoords.size >= 2) {
-      val count = listOfCoords.sliding(2).count(list => list.head._1 + 1 == list(1)._1)
-      (count > 0, count + 1)
+      val count = listOfCoords.sliding(2).count(
+        list => list.head._1 + 1 == list(1)._1
+      )
+      val trueCount = if(listOfCoords.size < 6) count + 1 else count
+      (count > 0, trueCount)
     }
     else {
       (false, 0)
@@ -169,8 +179,11 @@ class Grid(val board:List[Option[Cell]], var win: Boolean = false) {
 
   private def checkSequentialVerticalColumns(listOfCoords: List[(Int, Int)]): (Boolean, Int) = {
     if(listOfCoords.size >= 2) {
-      val count = listOfCoords.sliding(2).count(list => list.head._2 + 1 == list(1)._2)
-      (count > 0, count + 1)
+      val count = listOfCoords.sliding(2).count({ list =>
+        list.head._2 + 1 == list(1)._2
+      })
+      val trueCount = if(listOfCoords.size < 5) count + 1 else count
+      (count > 0, trueCount)
     }
     else {
       (false, 0)

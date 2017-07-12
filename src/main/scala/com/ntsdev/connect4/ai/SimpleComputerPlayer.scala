@@ -4,7 +4,7 @@ import com.ntsdev.connect4.game.Game
 import com.ntsdev.connect4.model.Grid._
 import com.ntsdev.connect4.model.RedCell
 
-class SimpleComputerPlayer {
+class SimpleComputerPlayer extends ComputerPlayer {
   def nextMove(game: Game): Int = {
     val grid = game.grid
     //find a red cell and stack on top of it or next to it.

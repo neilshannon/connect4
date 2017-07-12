@@ -13,7 +13,7 @@ class Connect4APISpec extends MutableScalatraSpec {
 
   "GET /startGame" should {
     "begin a game and return the board" in {
-        get("/startGame") {
+        get("/startGame?advanced=true") {
           //val json = parse(response.body)
           status must_== 200
         }

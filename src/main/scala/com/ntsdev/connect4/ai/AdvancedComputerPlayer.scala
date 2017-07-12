@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-class AdvancedComputerPlayer {
+class AdvancedComputerPlayer extends ComputerPlayer {
 
   private final val log = LoggerFactory.getLogger(getClass)
 
@@ -15,7 +15,7 @@ class AdvancedComputerPlayer {
     override def toString: String = "Score: [" + score + "] Column: [" + column + "]"
   }
 
-  private final val MAX_DEPTH = 4
+  private final val MAX_DEPTH = 5
 
   private var results = mutable.ListBuffer[Result]()
 
